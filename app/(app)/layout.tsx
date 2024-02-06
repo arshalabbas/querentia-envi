@@ -3,11 +3,17 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
+//components
+import TopBar from "@/components/shared/TopBar";
+import LeftSideBar from "@/components/shared/LeftSideBar";
+import BottomBar from "@/components/shared/BottomBar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Querentia",
-  description: "A Collaborative Problem Solving Platform",
+  description:
+    "Connecting Hearts Sharing Solutions - Your space for well-being",
 };
 
 export default function RootLayout({
@@ -18,7 +24,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <TopBar />
+
+          <main className="flex flex-row">
+            <LeftSideBar />
+            <section className="main-container">
+              <div className="w-full max-w-4xl">{children}</div>
+            </section>
+            {/* <RightSidebar /> */}
+          </main>
+          <BottomBar />
+        </body>
       </html>
     </ClerkProvider>
   );

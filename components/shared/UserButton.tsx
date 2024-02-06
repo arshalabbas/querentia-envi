@@ -28,7 +28,7 @@ const UserButton = async () => {
               width={40}
               height={40}
               alt="Tailwind CSS Navbar component"
-              src={"https://api.multiavatar.com/random.png"}
+              src={user.imageUrl || "https://api.multiavatar.com/random.png"}
             />
           </div>
         </div>

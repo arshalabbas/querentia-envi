@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const Question = new mongoose.Schema({
+const questionSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -39,3 +39,8 @@ const Question = new mongoose.Schema({
     ref: "Question",
   },
 });
+
+const Question =
+  mongoose.models.Question || mongoose.model("Question", questionSchema);
+
+export default Question;

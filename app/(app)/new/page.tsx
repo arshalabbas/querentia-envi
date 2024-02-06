@@ -1,8 +1,11 @@
 import FeedForm from "@/components/forms/FeedForm";
 import PollForm from "@/components/forms/PollForm";
 import QuestionForm from "@/components/forms/QuestionForm";
+import { currentUser } from "@clerk/nextjs";
 
-const Page = () => {
+const Page = async () => {
+  const user = await currentUser();
+  if (!user) return null;
   return (
     <div>
       <h1 className="text-head">Create</h1>
@@ -19,7 +22,7 @@ const Page = () => {
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
-          <QuestionForm />
+          <QuestionForm userId={user.id} />
         </div>
 
         <input

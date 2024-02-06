@@ -1,9 +1,7 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <main>
-      <h1>Querentia</h1>
+      <h1 className="text-head">Querentia</h1>
     </main>
   );
 }

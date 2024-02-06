@@ -1,3 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.leftsidebar {
+    @apply sticky left-0 top-0 z-20 flex h-screen w-fit flex-col justify-between overflow-auto border-r border-r-black bg-base-100 pb-5 pt-28 max-md:hidden;
+  }
+
+  .leftsidebar_link {
+    @apply relative flex justify-start gap-4 rounded-lg p-4;
+  }
+
+  @layer components {
+    .main-container {
+        @apply flex min-h-screen flex-1 flex-col px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
+      }
+      .text-head {
+        @apply text-3xl font-bold;
+      }
+      .text-subtl {
+        @apply text-lg text-primary;
+      }
+      .text-sub-head {
+        @apply font-semibold text-xl;
+      }
+  }
+
+  @layer utilities {
+      .spaced-container {
+        /* Set a fixed width for larger screens */
+        max-width: 1140px;
+        /* Add some padding on the left and right */
+        padding: 0 15px;
+        /* Center the container horizontally */
+        margin: 0 auto;
+      }
+      
+      /* Use media queries to adjust the width for smaller screens */
+      @media (max-width: 1200px) {
+        .container {
+          max-width: 960px;
+        }
+      }
+      
+      @media (max-width: 992px) {
+        .container {
+          max-width: 720px;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          max-width: 540px;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .container {
+          /* Use 100% width for extra small screens */
+          max-width: 100%;
+        }
+      }
+      
+  }

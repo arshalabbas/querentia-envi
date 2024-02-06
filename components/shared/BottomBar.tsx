@@ -7,14 +7,14 @@ import { usePathname } from "next/navigation";
 
 const BottomBar = () => {
   const pathname = usePathname();
-  //   const { userId } = useAuth();
+  const { userId } = useAuth();
   return (
     <div className="btm-nav bg-base-200 md:hidden">
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
           pathname === item.route;
-        // if (item.route === "/profile") item.route = `${item.route}/${userId}`;
+        if (item.route === "/profile") item.route = `${item.route}/${userId}`;
         return (
           <Link
             key={item.label}

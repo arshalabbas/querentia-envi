@@ -22,9 +22,12 @@ export async function postQuestion({
   try {
     connectToDB();
 
+    const userInfo = await User.findOne({ id: userId });
+
     const postedQuestion = await Question.create({
       title,
       description,
+      author: userInfo._id,
     });
 
     await User.findOneAndUpdate(
@@ -47,7 +50,7 @@ export async function fetchQuestions(pageNumber = 1, pageSize = 20) {
     const questionsQuery = Question.find({
       parentId: { $in: [null, undefined] },
     })
-      .sort({ createdAt: "desc" })
+      .sort({ createdAt: "descending" })
       .skip(skipAmount)
       .limit(pageSize)
       .populate({
@@ -64,5 +67,33 @@ export async function fetchQuestions(pageNumber = 1, pageSize = 20) {
     return { questions, isNext };
   } catch (error: any) {
     throw new Error(`Error fetching questions: ${error.message}`);
+  }
+}
+
+export async function fetchQuestionById(questionId: string) {
+  try {
+    connectToDB();
+
+    const question = await Question.findById(questionId)
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id id name username avatar",
+      })
+      .populate({
+        path: "answers",
+        populate: [
+          {
+            path: "author",
+            model: User,
+            select: "_id id name username parentId avatar",
+          },
+        ],
+      })
+      .exec();
+
+    return question;
+  } catch (error: any) {
+    throw new Error(`Error fetching the question by id: ${error.message}`);
   }
 }

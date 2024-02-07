@@ -13,7 +13,7 @@ interface Props {
   };
 }
 
-const QuestionCard = async ({
+const QuestionActionCard = async ({
   questionId,
   title,
   description,
@@ -25,33 +25,25 @@ const QuestionCard = async ({
   return (
     <div className="card bg-base-200">
       <div className="flex p-4 justify-between">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 items-center">
           <div className="flex mr-1">
             <Image
-              src="/assets/vote.svg"
-              alt="vote_icon"
-              width={24}
-              height={24}
-            />{" "}
+              src="/assets/upvote.svg"
+              alt="upvote_icon"
+              width={32}
+              height={32}
+            />
+          </div>
+          <div className="flex mr-1">
             <p>0</p>
           </div>
           <div className="flex mr-1">
             <Image
-              src="/assets/reply.svg"
-              alt="answers_icon"
-              width={24}
-              height={24}
-            />{" "}
-            <p>0</p>
-          </div>
-          <div className="flex mr-1">
-            <Image
-              src="/assets/share.svg"
+              src="/assets/downvote.svg"
               alt="share_icon"
-              width={24}
-              height={24}
-            />{" "}
-            <p>0</p>
+              width={32}
+              height={32}
+            />
           </div>
         </div>
         <div className="divider divider-horizontal"></div>
@@ -59,11 +51,7 @@ const QuestionCard = async ({
           <div className="flex flex-col justify-between h-full">
             <div>
               <p className="card-title">{title}</p>
-              <p className="text-gray-500">
-                {description.length <= 20
-                  ? description
-                  : description.substring(0, 50) + "..."}
-              </p>
+              <p className="text-gray-500">{description}</p>
             </div>
             <div className="flex gap-2 mt-2">
               <div className="rounded-full overflow-hidden">
@@ -104,4 +92,4 @@ const QuestionCard = async ({
   );
 };
 
-export default QuestionCard;
+export default QuestionActionCard;

@@ -19,11 +19,10 @@ const Page = async () => {
               <QuestionCard
                 key={question._id}
                 title={question.title}
-                description={
-                  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque consequuntur nam ab consequatur corporis non corrupti illum, harum error dignissimos culpa molestiae pariatur amet, iusto veritatis vero deserunt nemo reprehenderit!"
-                }
+                description={question.description}
                 author={question.author}
                 questionId={question._id}
+                answersLength={question.answers.length}
               />
             ))}
           </>

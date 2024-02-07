@@ -28,6 +28,7 @@ export async function postQuestion({
       title,
       description,
       author: userInfo._id,
+      createdAt: new Date(),
     });
 
     await User.findOneAndUpdate(
@@ -50,9 +51,9 @@ export async function fetchQuestions(pageNumber = 1, pageSize = 20) {
     const questionsQuery = Question.find({
       parentId: { $in: [null, undefined] },
     })
-      .sort({ createdAt: "descending" })
       .skip(skipAmount)
       .limit(pageSize)
+      .sort({ createdAt: "desc" })
       .populate({
         path: "author",
         model: User,

@@ -11,6 +11,7 @@ interface Props {
     id: string;
     avatar: string;
   };
+  answersLength: [];
 }
 
 const QuestionCard = async ({
@@ -18,6 +19,7 @@ const QuestionCard = async ({
   title,
   description,
   author,
+  answersLength,
 }: Props) => {
   const user = await currentUser();
   if (!user) return null;
@@ -42,7 +44,7 @@ const QuestionCard = async ({
               width={24}
               height={24}
             />{" "}
-            <p>0</p>
+            <p>{answersLength}</p>
           </div>
           <div className="flex mr-1">
             <Image

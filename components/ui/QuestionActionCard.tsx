@@ -1,4 +1,4 @@
-import { useAuth } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,36 +13,41 @@ interface Props {
   };
 }
 
-const QuestionActionCard = ({
+const QuestionActionCard = async ({
   questionId,
   title,
   description,
   author,
 }: Props) => {
-  const { userId } = useAuth();
-  let sameUser = userId === author.id;
+  const user = await currentUser();
+  if (!user) return null;
+  let sameUser = user.id === author.id;
   return (
     <div className="card bg-base-200">
       <div className="flex p-4 justify-between">
         <div className="flex flex-col gap-2 items-center">
           <div className="flex mr-1">
-            <Image
-              src="/assets/upvote.svg"
-              alt="upvote_icon"
-              width={32}
-              height={32}
-            />
+            <button className="btn btn-ghost btn-circle">
+              <Image
+                src="/assets/upvote.svg"
+                alt="upvote_icon"
+                width={32}
+                height={32}
+              />
+            </button>
           </div>
           <div className="flex mr-1">
             <p>0</p>
           </div>
           <div className="flex mr-1">
-            <Image
-              src="/assets/downvote.svg"
-              alt="share_icon"
-              width={32}
-              height={32}
-            />
+            <button className="btn btn-ghost btn-circle">
+              <Image
+                src="/assets/downvote.svg"
+                alt="share_icon"
+                width={32}
+                height={32}
+              />
+            </button>
           </div>
         </div>
         <div className="divider divider-horizontal"></div>

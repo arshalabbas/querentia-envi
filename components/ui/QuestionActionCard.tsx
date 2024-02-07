@@ -1,11 +1,11 @@
-import { currentUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
   questionId: string;
   title: string;
-  description: string;
+  description?: string;
   author: {
     username: string;
     id: string;
@@ -13,15 +13,14 @@ interface Props {
   };
 }
 
-const QuestionActionCard = async ({
+const QuestionActionCard = ({
   questionId,
   title,
   description,
   author,
 }: Props) => {
-  const user = await currentUser();
-  if (!user) return null;
-  let sameUser = user.id === author.id;
+  const { userId } = useAuth();
+  let sameUser = userId === author.id;
   return (
     <div className="card bg-base-200">
       <div className="flex p-4 justify-between">
@@ -47,26 +46,24 @@ const QuestionActionCard = async ({
           </div>
         </div>
         <div className="divider divider-horizontal"></div>
-        <Link className="flex-1" href={`/question/${questionId}`}>
-          <div className="flex flex-col justify-between h-full">
-            <div>
-              <p className="card-title">{title}</p>
-              <p className="text-gray-500">{description}</p>
-            </div>
-            <div className="flex gap-2 mt-2">
-              <div className="rounded-full overflow-hidden">
-                <Image
-                  src={author.avatar}
-                  className="rounded-full image-full"
-                  alt="user-avatar"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <p className="text-primary">@{author.username}</p>
-            </div>
+        <div className="flex flex-1 flex-col justify-between h-full">
+          <div>
+            <p className="card-title">{title}</p>
+            <p className="text-gray-500">{description}</p>
           </div>
-        </Link>
+          <div className="flex gap-2 mt-2">
+            <div className="rounded-full overflow-hidden">
+              <Image
+                src={author.avatar}
+                className="rounded-full image-full"
+                alt="user-avatar"
+                width={20}
+                height={20}
+              />
+            </div>
+            <p className="text-primary">@{author.username}</p>
+          </div>
+        </div>
         <div>
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost">

@@ -97,3 +97,35 @@ export async function fetchQuestionById(questionId: string) {
     throw new Error(`Error fetching the question by id: ${error.message}`);
   }
 }
+
+export async function addAnswerToQuestion(
+  questionId: string,
+  text: string,
+  userId: string,
+  path: string
+) {
+  try {
+    connectToDB();
+
+    const originalQuestion = await Question.findById(questionId);
+    if (!originalQuestion) {
+      throw new Error(`Question not found!`);
+    }
+
+    const answerQuestion = new Question({
+      title: text,
+      author: userId,
+      parentId: questionId,
+    });
+
+    const savedAnswerQuestion = await answerQuestion.save();
+
+    originalQuestion.answers.push(savedAnswerQuestion._id);
+
+    await originalQuestion.save();
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Error adding comment: ${error.message}`);
+  }
+}

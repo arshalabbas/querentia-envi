@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import connectToDB from "../mongoose";
 import { clerkClient } from "@clerk/nextjs";
+import Question from "../models/question.model";
 
 interface Params {
   userId: string;
@@ -69,5 +70,29 @@ export async function removeUser(userId: string) {
     await clerkClient.users.deleteUser(userId);
   } catch (error: any) {
     throw new Error(`Error removing user: ${error.message}`);
+  }
+}
+
+export async function getActivity(userId: string) {
+  try {
+    connectToDB();
+    const userQuestions = await Question.find({ author: userId });
+
+    const answersIds = userQuestions.reduce((acc, userQuestion) => {
+      return acc.concat(userQuestion.answers);
+    }, []);
+
+    const answers = await Question.find({
+      _id: { $in: answersIds },
+      author: { $ne: userId },
+    }).populate({
+      path: "author",
+      model: User,
+      select: "name avatar _id",
+    });
+
+    return answers;
+  } catch (error: any) {
+    throw new Error(`Error fetching the activities: ${error.message}`);
   }
 }
